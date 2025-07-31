@@ -171,8 +171,11 @@ Containerization: Dockerize the entire application (pipeline scripts, database, 
 3. Correlation Heatmap
 (Insert screenshot of the Correlation Heatmap)
 
-4. Individual Fund Technical Analysis
+
+# SIP-Analyzer is the main file that contain the main ipynb file, run that and you will get all the necessary files to run the pipeline.
+
+5. Individual Fund Technical Analysis
 (Insert screenshot of the NAV chart with Bollinger Bands and RSI)
 
-5. NAV Forecast
+6. NAV Forecast
 (Insert screenshot of the Prophet/Ensemble forecast chart)
