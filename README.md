@@ -1,9 +1,10 @@
 # End-to-End Mutual Fund Analysis & Recommendation Engine
 
-The Goal: From Raw Data to Actionable Investment Insights
+## The Goal: From Raw Data to Actionable Investment Insights
+
 The Indian mutual fund market offers thousands of schemes, making it overwhelming for an investor to choose the right one. This project tackles that challenge by building a complete, automated data pipeline and analysis engine.
 
-The core idea is to create a system that can:
+## The core idea is to create a system that can:
 
 Automatically gather historical and daily performance data for every mutual fund in India.
 
@@ -17,22 +18,26 @@ Offer advanced tools for portfolio diversification and technical analysis.
 
 This project moves beyond a simple analysis script; it is a proof-of-concept for a full-scale financial data intelligence platform.
 
-🚀 Key Features
-Automated Data Pipeline: Scripts to fetch full historical data from the mfapi.in API and daily updates from the official AMFI source.
+## 🚀 Key Features
+#### Automated Data Pipeline:
+Scripts to fetch full historical data from the mfapi.in API and daily updates from the official AMFI source.
 
-Robust Database Backend: Uses MySQL to store over a million NAV records, with intelligent data validation and duplicate handling.
+#### Robust Database Backend: 
+Uses MySQL to store over a million NAV records, with intelligent data validation and duplicate handling.
 
-Comprehensive Analysis Engine: Calculates 1, 3, 5, and 10-year CAGR, fund age, since-inception returns, annualized volatility, and Sharpe Ratio for thousands of funds.
+#### Comprehensive Analysis Engine: 
+Calculates 1, 3, 5, and 10-year CAGR, fund age, since-inception returns, annualized volatility, and Sharpe Ratio for thousands of funds.
 
-Intelligent Fund Filtering: Automatically identifies and excludes unsuitable funds (like Fixed Maturity Plans, ETFs, closed-ended schemes) to ensure analysis is relevant for regular investors.
+#### Intelligent Fund Filtering:  
+Automatically identifies and excludes unsuitable funds (like Fixed Maturity Plans, ETFs, closed-ended schemes) to ensure analysis is relevant for regular investors.
 
-Personalized Recommendation Engine:
+#### Personalized Recommendation Engine:
 
 Scores funds based on a user's risk tolerance ('Low', 'Medium', 'High') and investment horizon.
 
 Separates recommendations into Core (Diversified) and Specialized (Thematic) funds.
 
-Advanced Diversification Tools:
+#### Advanced Diversification Tools:
 
 Generates a Correlation Heatmap and Hierarchical Clustering Dendrogram to help users build a truly diversified portfolio by selecting funds that don't move in lockstep.
 
@@ -40,7 +45,7 @@ Predictive Forecasting: Uses an ensemble of Prophet and Holt-Winters models to f
 
 Technical Deep-Dive: For any top-recommended fund, it generates a technical chart with Moving Averages (SMAs), Bollinger Bands, and the Relative Strength Index (RSI) to identify trends and potential entry/exit points.
 
-🛠️ Technology Stack
+## 🛠️ Technology Stack
 Backend & Data Processing: Python
 
 Data Manipulation & Analysis: Pandas, NumPy
@@ -61,7 +66,7 @@ Configuration Management: Pydantic, python-dotenv
 
 Development Environment: Jupyter Notebook
 
-⚙️ How It Works: The Core Logic
+## ⚙️ How It Works: The Core Logic
 The project is divided into two main parts: the Data Pipeline that builds the database and the Analysis Engine that uses the data.
 
 Part 1: The Data Pipeline (Building the Foundation)
@@ -96,7 +101,7 @@ Diversification Analysis: For the top-recommended funds, it creates a pivot tabl
 
 Final Portfolio Construction: It builds a sample portfolio by first picking the highest-scoring fund, then iteratively adding other high-scoring funds that have a low correlation (<0.85) to the ones already selected.
 
-🔧 How to Use This Project
+## 🔧 How to Use This Project
 Prerequisites:
 
 Python 3.8+
@@ -133,10 +138,10 @@ Run the Analysis:
 
 Open and run the Analysis_Optimized.ipynb and forecasting_final.ipynb notebooks in Jupyter to see the results and get recommendations.
 
-⚠️ Imperfections & Future Work
+## ⚠️ Imperfections & Future Work
 This project is a robust proof-of-concept, but there are clear areas for improvement:
 
-Imperfections:
+### Imperfections:
 
 API Dependency: The historical data pipeline is entirely dependent on the free mfapi.in API. If this API goes down or becomes unreliable, the initial build will fail.
 
@@ -144,7 +149,7 @@ Static Risk-Free Rate: The Sharpe Ratio calculation uses a static risk-free rate
 
 Simplistic Recommendation Score: The suitability score is based on a simple weighted average. A more advanced model could use machine learning (e.g., clustering users and funds) for more nuanced recommendations.
 
-Future Enhancements:
+### Future Enhancements:
 
 Web Interface: Build a web application using Streamlit or Flask/Django to provide a user-friendly interface for setting goals and viewing recommendations, hiding the complexity of the notebooks.
 
@@ -154,7 +159,7 @@ Direct-from-PDF Analysis: Allow users to upload their CAS (Consolidated Account 
 
 Containerization: Dockerize the entire application (pipeline scripts, database, and web app) for easy deployment and scalability.
 
-📊 Key Visuals from the Analysis
+## 📊 Key Visuals from the Analysis
 (This is where you should insert screenshots of your best charts)
 
 1. Top Recommended Core Funds
