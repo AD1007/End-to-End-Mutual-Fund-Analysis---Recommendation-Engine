@@ -1,4 +1,5 @@
-End-to-End Mutual Fund Analysis & Recommendation Engine
+# End-to-End Mutual Fund Analysis & Recommendation Engine
+
 The Goal: From Raw Data to Actionable Investment Insights
 The Indian mutual fund market offers thousands of schemes, making it overwhelming for an investor to choose the right one. This project tackles that challenge by building a complete, automated data pipeline and analysis engine.
 
