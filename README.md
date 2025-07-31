@@ -110,7 +110,7 @@ A running MySQL server instance.
 
 Setup:
 
-Clone the repository: git clone https://github.com/your-username/SIP-Analyser.git
+Clone the repository: git clone [https://github.com/your-username/SIP-Analyser.git](https://github.com/AD1007/End-to-End-Mutual-Fund-Analysis---Recommendation-Engine)
 
 Install the required libraries: pip install -r requirements.txt
 
