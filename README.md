@@ -50,11 +50,11 @@ The final projected NAV is a weighted ensemble of both models, heavily reducing 
 
 1. Clone the repo and install dependencies:
 
-   '''
+   """Python
    git clone https://github.com/your-username/mf-quant-pipeline.git
    cd mf-quant-pipeline
    pip install -r requirements.txt
-   '''
+   """
 
 2. Configure the environment. Create a .env file in the root directory:
 
