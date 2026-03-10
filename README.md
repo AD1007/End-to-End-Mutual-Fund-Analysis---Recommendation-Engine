@@ -1,22 +1,15 @@
-# End-to-End Mutual Fund Analysis & Recommendation Engine
+# Quantitative Mutual Fund Analytics & Forecasting Pipeline
 
-## The Goal: From Raw Data to Actionable Investment Insights
+## What is it 
+An automated, end-to-end data pipeline and quantitative screening engine for the Indian Mutual Fund market. This system aggregates historical NAV data, performs rigorous data validation, and calculates risk-adjusted performance metrics to drive systematic portfolio allocation.
 
-The Indian mutual fund market offers thousands of schemes, making it overwhelming for an investor to choose the right one. This project tackles that challenge by building a complete, automated data pipeline and analysis engine.
-
-## The core idea is to create a system that can:
-
-Automatically gather historical and daily performance data for every mutual fund in India.
-
-Build a robust, local database to store this massive dataset efficiently.
-
-Run a comprehensive analysis to calculate key performance and risk metrics (CAGR, Sharpe Ratio, Volatility).
-
-Provide personalized recommendations based on an investor's specific goals (time horizon and risk tolerance).
-
-Offer advanced tools for portfolio diversification and technical analysis.
-
-This project moves beyond a simple analysis script; it is a proof-of-concept for a full-scale financial data intelligence platform.
+## Architecture & Infrastructure 
+The project is structured for reliability and automated reporting, heavily emphasizing data integrity before any statistical modeling occurs.
+**1. Data Ingestion & Pipeline:** Multi-threaded historical data extraction from the AMFI API, coupled with a resilient daily update mechanism (exponential backoff, retry logic).
+**2.Data Validation:** Strict schema enforcement using Pandera. Erroneous data (e.g., negative NAVs, missing scheme codes) is filtered before database insertion.
+**3.Storage Layer:** MySQL database managed via SQLAlchemy ORM, utilizing connection pooling for high-throughput I/O operations.
+**4.Analytical Engine:** Calculates annualized volatility, CAGR across multiple horizons, and the Sharpe ratio ($Sharpe = \frac{R_p - R_f}{\sigma_p}$) for 5,000+ open-ended funds.
+**5.Automated Reporting:** A CLI-driven orchestrator (run_local_pipeline.py) that executes the analytical pipeline and generates a stylized, client-ready PDF report via xhtml2pdf.
 
 ## 🚀 Key Features
 #### Automated Data Pipeline:
