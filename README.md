@@ -12,9 +12,12 @@ The project is structured for reliability and automated reporting, heavily empha
 
 **3.Storage Layer:** MySQL database managed via SQLAlchemy ORM, utilizing connection pooling for high-throughput I/O operations.
 
-**4.Analytical Engine:** Calculates annualized volatility, CAGR across multiple horizons, and the Sharpe ratio  ($Sharpe = \frac{R_p - R_f}{\sigma_p}$) for 5,000+ open-ended funds.
+**4.Analytical Engine:** Calculates annualized volatility, CAGR across multiple horizons, and the Sharpe ratio  (Sharpe ratio $$  \left( Sharpe = \frac{R_p - R_f}{\sigma_p} \right)  $$) for 5,000+ open-ended funds.
 
 **5.Automated Reporting:** A CLI-driven orchestrator (run_local_pipeline.py) that executes the analytical pipeline and generates a stylized, client-ready PDF report via xhtml2pdf.
+<img width="787" height="742" alt="image" src="https://github.com/user-attachments/assets/c0a9cd36-4725-4cd5-bbfe-8d053e4f6fd1" />
+<img width="774" height="303" alt="image" src="https://github.com/user-attachments/assets/71b0d3c6-bd51-409a-a10e-593224cf436b" />
+<img width="799" height="548" alt="image" src="https://github.com/user-attachments/assets/9d6b2441-c9c4-4235-926f-7816f93c0c6d" />
 
 ## Quantitative Backtesting Performance
 The ProfessionalMFEngine module implements a systematic backtester evaluating a combined Trend-Following (Fast/Slow EMA crossover) and Momentum (RSI + Prophet directional prediction) strategy.
@@ -58,7 +61,7 @@ The final projected NAV is a weighted ensemble of both models, heavily reducing 
 
 2. Configure the environment. Create a .env file in the root directory:
 
-   ```Snippet
+   ```.env
    DB_USER=your_user
    DB_PASSWORD=your_password
    DB_HOST=localhost
@@ -72,7 +75,7 @@ The final projected NAV is a weighted ensemble of both models, heavily reducing 
  Builds the historical database from scratch, runs the statistical models, and generates the PDF report. 
  
  ``` Python
- python run_local_pipeline.py --full-rebuild
+ python run_local_pipeline.py --full
  ```
 
  **Option 2: Daily Updates & Report Generation**
@@ -85,3 +88,6 @@ The final projected NAV is a weighted ensemble of both models, heavily reducing 
 ## Portfolio Construction Logic
 
 The recommendation algorithm utilizes agglomerative hierarchical clustering (Ward's method) and a daily return correlation matrix. The pipeline automatically constructs a diversified portfolio by selecting an "Anchor" fund based on the highest risk-adjusted suitability score, and iteratively appending funds that maintain an internal correlation coefficient of < 0.85.
+
+
+*Disclaimer: This is not financial advice. Past performance ≠ future results. For educational/research use only.*
