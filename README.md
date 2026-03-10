@@ -1,6 +1,6 @@
 # Quantitative Mutual Fund Analytics & Forecasting Pipeline
 
-## What is it 
+## Description
 An automated, end-to-end data pipeline and quantitative screening engine for the Indian Mutual Fund market. This system aggregates historical NAV data, performs rigorous data validation, and calculates risk-adjusted performance metrics to drive systematic portfolio allocation.
 
 ## Architecture & Infrastructure 
