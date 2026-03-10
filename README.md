@@ -12,11 +12,11 @@ The project is structured for reliability and automated reporting, heavily empha
 
 **3.Storage Layer:** MySQL database managed via SQLAlchemy ORM, utilizing connection pooling for high-throughput I/O operations.
 
-**4.Analytical Engine:** Calculates annualized volatility, CAGR across multiple horizons, and the Sharpe ratio  (Sharpe ratio $$  \left( Sharpe = \frac{R_p - R_f}{\sigma_p} \right)  $$) for 5,000+ open-ended funds.
+**4.Analytical Engine:** Calculates annualized volatility, CAGR across multiple horizons, and the Sharpe ratio  ($  \left( Sharpe = \frac{R_p - R_f}{\sigma_p} \right)  $) for 5,000+ open-ended funds.
 <img width="787" height="742" alt="image" src="https://github.com/user-attachments/assets/c0a9cd36-4725-4cd5-bbfe-8d053e4f6fd1" />
 
 **5.Automated Reporting:** A CLI-driven orchestrator (run_local_pipeline.py) that executes the analytical pipeline and generates a stylized, client-ready PDF report via xhtml2pdf.
-<img width="774" height="303" alt="image" src="https://github.com/user-attachments/assets/71b0d3c6-bd51-409a-a10e-593224cf436b" />
+
 
 ## Quantitative Backtesting Performance
 The ProfessionalMFEngine module implements a systematic backtester evaluating a combined Trend-Following (Fast/Slow EMA crossover) and Momentum (RSI + Prophet directional prediction) strategy.
