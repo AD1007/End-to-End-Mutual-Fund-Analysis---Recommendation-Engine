@@ -17,7 +17,6 @@ The project is structured for reliability and automated reporting, heavily empha
 **5.Automated Reporting:** A CLI-driven orchestrator (run_local_pipeline.py) that executes the analytical pipeline and generates a stylized, client-ready PDF report via xhtml2pdf.
 <img width="787" height="742" alt="image" src="https://github.com/user-attachments/assets/c0a9cd36-4725-4cd5-bbfe-8d053e4f6fd1" />
 <img width="774" height="303" alt="image" src="https://github.com/user-attachments/assets/71b0d3c6-bd51-409a-a10e-593224cf436b" />
-<img width="799" height="548" alt="image" src="https://github.com/user-attachments/assets/9d6b2441-c9c4-4235-926f-7816f93c0c6d" />
 
 ## Quantitative Backtesting Performance
 The ProfessionalMFEngine module implements a systematic backtester evaluating a combined Trend-Following (Fast/Slow EMA crossover) and Momentum (RSI + Prophet directional prediction) strategy.
@@ -42,6 +41,9 @@ Forward-looking projections are handled by a dual-model ensemble approach to bal
 2. Holt-Winters (Exponential Smoothing): Captures additive trend and seasonal components over a 365-day period.
 
 The final projected NAV is a weighted ensemble of both models, heavily reducing the variance of single-model forecasts.
+
+<img width="799" height="548" alt="image" src="https://github.com/user-attachments/assets/9d6b2441-c9c4-4235-926f-7816f93c0c6d" />
+
 
 ## Reproducibility & Setup
 #### Prerequisites
