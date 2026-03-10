@@ -5,10 +5,15 @@ An automated, end-to-end data pipeline and quantitative screening engine for the
 
 ## Architecture & Infrastructure 
 The project is structured for reliability and automated reporting, heavily emphasizing data integrity before any statistical modeling occurs.
+
 **1. Data Ingestion & Pipeline:** Multi-threaded historical data extraction from the AMFI API, coupled with a resilient daily update mechanism (exponential backoff, retry logic).
+
 **2.Data Validation:** Strict schema enforcement using Pandera. Erroneous data (e.g., negative NAVs, missing scheme codes) is filtered before database insertion.
+
 **3.Storage Layer:** MySQL database managed via SQLAlchemy ORM, utilizing connection pooling for high-throughput I/O operations.
-**4.Analytical Engine:** Calculates annualized volatility, CAGR across multiple horizons, and the Sharpe ratio ($Sharpe = \frac{R_p - R_f}{\sigma_p}$) for 5,000+ open-ended funds.
+
+**4.Analytical Engine:** Calculates annualized volatility, CAGR across multiple horizons, and the Sharpe ratio  ($Sharpe = \frac{R_p - R_f}{\sigma_p}$) for 5,000+ open-ended funds.
+
 **5.Automated Reporting:** A CLI-driven orchestrator (run_local_pipeline.py) that executes the analytical pipeline and generates a stylized, client-ready PDF report via xhtml2pdf.
 
 ## 🚀 Key Features
