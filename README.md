@@ -31,137 +31,58 @@ Simulation on Bull Market parameters (0.08% daily drift, 1200 periods):
 Annualized Sharpe Ratio |    1.85  |
 
 
-## 🛠️ Technology Stack
-Backend & Data Processing: Python
+## Forecasting Methodology
+Forward-looking projections are handled by a dual-model ensemble approach to balance trend responsiveness with seasonal stability:
 
-Data Manipulation & Analysis: Pandas, NumPy
+1. Facebook Prophet: Handles daily/yearly seasonality and automatic changepoint detection for trend shifts.
 
-Database: MySQL
+2. Holt-Winters (Exponential Smoothing): Captures additive trend and seasonal components over a 365-day period.
 
-Database Connector & ORM: SQLAlchemy, PyMySQL
+The final projected NAV is a weighted ensemble of both models, heavily reducing the variance of single-model forecasts.
 
-Data Validation: Pandera
+## Reproducibility & Setup
+#### Prerequisites
+* Python 3.8+
 
-Web Scraping & API Interaction: Requests
+* Running MySQL Server instance
 
-Time-Series Forecasting: Prophet (by Facebook), Statsmodels
+#### Installation
 
-Data Visualization: Matplotlib, Seaborn
+1. Clone the repo and install dependencies:
 
-Configuration Management: Pydantic, python-dotenv
+   '''
+   git clone https://github.com/your-username/mf-quant-pipeline.git
+   cd mf-quant-pipeline
+   pip install -r requirements.txt
+   '''
 
-Development Environment: Jupyter Notebook
+2. Configure the environment. Create a .env file in the root directory:
 
-## ⚙️ How It Works: The Core Logic
-The project is divided into two main parts: the Data Pipeline that builds the database and the Analysis Engine that uses the data.
+   '''
+   DB_USER=your_user
+   DB_PASSWORD=your_password
+   DB_HOST=localhost
+   DB_PORT=3306
+   DB_NAME=mutual_funds
+   '''
 
-Part 1: The Data Pipeline (Building the Foundation)
-build_full_history_optimized.py:
+ #### Execution
 
-This is the master script to build the database from scratch.
+ **Option 1: Full System Initialization (First Run)**
+ Builds the historical database from scratch, runs the statistical models, and generates the PDF report. 
+ 
+ '''
+ python run_local_pipeline.py --full-rebuild
+ ''''
 
-It first fetches a list of all 50,000+ scheme codes from the API.
+ **Option 2: Daily Updates & Report Generation**
+ Fetches the latest T+1 NAV data, updates the MySQL database, and regenerates the analytical reports.
 
-Using multi-threading (ThreadPoolExecutor), it downloads the full historical NAV data for every single fund in parallel, making the process significantly faster.
+ '''
+ python run_local_pipeline.py
+ '''
 
-It includes a checkpoint system: it saves progress periodically, so if the script fails, it can be resumed without losing downloaded data.
+## Portfolio Construction Logic
 
-Once all data is downloaded, it is cleaned, validated, and loaded into the nav_data table in the MySQL database.
-
-update_daily.py:
-
-This script is meant to be run daily.
-
-It scrapes the latest NAV data from the official AMFI website.
-
-It intelligently appends this new data to the existing database, updating records for the latest day. This ensures the database is always current.
-
-Part 2: The Analysis & Recommendation Engine (Analysis_Optimized.ipynb)
-Memory-Safe Data Loading: It first connects to the database and runs a query to get a list of all fund names. It uses a keyword filter to identify unsuitable funds (FMPs, ETFs, etc.) and then loads the full data for only the suitable funds. This is a critical optimization that prevents memory errors.
-
-Metric Calculation: It calculates daily returns and then computes the full suite of metrics: historical CAGR, fund age, volatility, and Sharpe Ratio.
-
-Recommendation Scoring: You set your INVESTMENT_HORIZON_YEARS and RISK_TOLERANCE. The engine then calculates a "Suitability Score" for each fund based on a weighted average of its risk-adjusted return (Sharpe Ratio) and expected performance.
-
-Diversification Analysis: For the top-recommended funds, it creates a pivot table of their daily returns and calculates the correlation matrix. This matrix is then used to generate the dendrogram and heatmap.
-
-Final Portfolio Construction: It builds a sample portfolio by first picking the highest-scoring fund, then iteratively adding other high-scoring funds that have a low correlation (<0.85) to the ones already selected.
-
-## 🔧 How to Use This Project
-Prerequisites:
-
-Python 3.8+
-
-A running MySQL server instance.
-
-Setup:
-
-Clone the repository: git clone [https://github.com/your-username/SIP-Analyser.git](https://github.com/AD1007/End-to-End-Mutual-Fund-Analysis---Recommendation-Engine)
-
-Install the required libraries: pip install -r requirements.txt
-
-Create a .env file in the root directory and add your database credentials:
-
-DB_USER=your_mysql_user
-DB_PASSWORD=your_mysql_password
-DB_HOST=localhost
-DB_PORT=3306
-DB_NAME=mutual_funds
-
-Create the mutual_funds database in your MySQL server.
-
-Run the Pipeline:
-
-Step 1 (One-time only): Build the historical database. This will take a long time.
-
-python build_full_history_optimized.py
-
-Step 2 (Run daily/weekly): Keep the database updated with the latest data.
-
-python update_daily.py
-
-Run the Analysis:
-
-Open and run the Analysis_Optimized.ipynb and forecasting_final.ipynb notebooks in Jupyter to see the results and get recommendations.
-
-## ⚠️ Imperfections & Future Work
-This project is a robust proof-of-concept, but there are clear areas for improvement:
-
-### Imperfections:
-
-API Dependency: The historical data pipeline is entirely dependent on the free mfapi.in API. If this API goes down or becomes unreliable, the initial build will fail.
-
-Static Risk-Free Rate: The Sharpe Ratio calculation uses a static risk-free rate of 4%. In a real-world application, this should be dynamic and fetched from a reliable source like RBI bond yields.
-
-Simplistic Recommendation Score: The suitability score is based on a simple weighted average. A more advanced model could use machine learning (e.g., clustering users and funds) for more nuanced recommendations.
-
-### Future Enhancements:
-
-Web Interface: Build a web application using Streamlit or Flask/Django to provide a user-friendly interface for setting goals and viewing recommendations, hiding the complexity of the notebooks.
-
-Portfolio Backtesting: Add a feature to simulate how a recommended portfolio would have performed over the last 5-10 years.
-
-Direct-from-PDF Analysis: Allow users to upload their CAS (Consolidated Account Statement) PDF, extract their current holdings, and analyze their existing portfolio's health and diversification.
-
-Containerization: Dockerize the entire application (pipeline scripts, database, and web app) for easy deployment and scalability.
-
-## 📊 Key Visuals from the Analysis
-(This is where you should insert screenshots of your best charts)
-
-1. Top Recommended Core Funds
-(Insert screenshot of the 'Top 15 Core Diversified Funds' table)
-
-2. Diversification Analysis - Dendrogram
-(Insert screenshot of the Dendrogram chart)
-
-3. Correlation Heatmap
-(Insert screenshot of the Correlation Heatmap)
-
-
-# SIP-Analyzer is the main file that contain the main ipynb file, run that and you will get all the necessary files to run the pipeline.
-
-5. Individual Fund Technical Analysis
-(Insert screenshot of the NAV chart with Bollinger Bands and RSI)
-
-6. NAV Forecast
-(Insert screenshot of the Prophet/Ensemble forecast chart)
+The recommendation algorithm utilizes agglomerative hierarchical clustering (Ward's method) and a daily return correlation matrix. The pipeline automatically constructs a diversified portfolio by selecting an "Anchor" fund based on the highest risk-adjusted suitability score, and iteratively appending funds that maintain an internal correlation coefficient of < 0.85.
+ 
