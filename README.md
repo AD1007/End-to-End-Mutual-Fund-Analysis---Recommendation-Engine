@@ -22,10 +22,15 @@ The ProfessionalMFEngine module implements a systematic backtester evaluating a 
 Simulation on Bull Market parameters (0.08% daily drift, 1200 periods):
 
 Metric                  |    Strategy Performance
+
 Directional Accuracy    |         52.3%
+
 Total Strategy Return   |         185.4%
+
 Benchmark Return        |         162.1%
+
 Max Drawdown            |         -12.4%
+
 Annualized Sharpe Ratio |          1.85
 
 ## 🛠️ Technology Stack
