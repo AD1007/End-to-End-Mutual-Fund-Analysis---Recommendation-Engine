@@ -50,39 +50,38 @@ The final projected NAV is a weighted ensemble of both models, heavily reducing 
 
 1. Clone the repo and install dependencies:
 
-   """Python
+   ```Python
    git clone https://github.com/your-username/mf-quant-pipeline.git
    cd mf-quant-pipeline
    pip install -r requirements.txt
-   """
+   ```
 
 2. Configure the environment. Create a .env file in the root directory:
 
-   '''
+   ```
    DB_USER=your_user
    DB_PASSWORD=your_password
    DB_HOST=localhost
    DB_PORT=3306
    DB_NAME=mutual_funds
-   '''
+   ```
 
  #### Execution
 
  **Option 1: Full System Initialization (First Run)**
  Builds the historical database from scratch, runs the statistical models, and generates the PDF report. 
  
- '''
+ ``` Python
  python run_local_pipeline.py --full-rebuild
- ''''
+ ```
 
  **Option 2: Daily Updates & Report Generation**
  Fetches the latest T+1 NAV data, updates the MySQL database, and regenerates the analytical reports.
 
- '''
+ ``` Python
  python run_local_pipeline.py
- '''
+ ```
 
 ## Portfolio Construction Logic
 
 The recommendation algorithm utilizes agglomerative hierarchical clustering (Ward's method) and a daily return correlation matrix. The pipeline automatically constructs a diversified portfolio by selecting an "Anchor" fund based on the highest risk-adjusted suitability score, and iteratively appending funds that maintain an internal correlation coefficient of < 0.85.
- 
