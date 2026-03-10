@@ -13,9 +13,9 @@ The project is structured for reliability and automated reporting, heavily empha
 **3.Storage Layer:** MySQL database managed via SQLAlchemy ORM, utilizing connection pooling for high-throughput I/O operations.
 
 **4.Analytical Engine:** Calculates annualized volatility, CAGR across multiple horizons, and the Sharpe ratio  
-$$
+```Math
 (\left( Sharpe = \frac{R_p - R_f}{\sigma_p} \right)) 
-$$ 
+```
 for 5,000+ open-ended funds.
 <img width="787" height="742" alt="image" src="https://github.com/user-attachments/assets/c0a9cd36-4725-4cd5-bbfe-8d053e4f6fd1" />
 
