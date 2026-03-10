@@ -13,16 +13,17 @@ The project is structured for reliability and automated reporting, heavily empha
 **3.Storage Layer:** MySQL database managed via SQLAlchemy ORM, utilizing connection pooling for high-throughput I/O operations.
 
 **4.Analytical Engine:** Calculates annualized volatility, CAGR across multiple horizons, and the Sharpe ratio  (Sharpe ratio $$  \left( Sharpe = \frac{R_p - R_f}{\sigma_p} \right)  $$) for 5,000+ open-ended funds.
+<img width="787" height="742" alt="image" src="https://github.com/user-attachments/assets/c0a9cd36-4725-4cd5-bbfe-8d053e4f6fd1" />
 
 **5.Automated Reporting:** A CLI-driven orchestrator (run_local_pipeline.py) that executes the analytical pipeline and generates a stylized, client-ready PDF report via xhtml2pdf.
-<img width="787" height="742" alt="image" src="https://github.com/user-attachments/assets/c0a9cd36-4725-4cd5-bbfe-8d053e4f6fd1" />
 <img width="774" height="303" alt="image" src="https://github.com/user-attachments/assets/71b0d3c6-bd51-409a-a10e-593224cf436b" />
 
 ## Quantitative Backtesting Performance
 The ProfessionalMFEngine module implements a systematic backtester evaluating a combined Trend-Following (Fast/Slow EMA crossover) and Momentum (RSI + Prophet directional prediction) strategy.
 
-Simulation on Bull Market parameters (0.08% daily drift, 1200 periods):
+Synthetic bull market simulation assuming 0.08% average daily return drift over 1200 trading days .
 
+### Metrics details:
 
 |Metric   | Strategy Performance|
 |---|---|
@@ -42,8 +43,7 @@ Forward-looking projections are handled by a dual-model ensemble approach to bal
 
 The final projected NAV is a weighted ensemble of both models, heavily reducing the variance of single-model forecasts.
 
-<img width="799" height="548" alt="image" src="https://github.com/user-attachments/assets/9d6b2441-c9c4-4235-926f-7816f93c0c6d" />
-
+<img width="748" height="410" alt="image" src="https://github.com/user-attachments/assets/effdda41-72db-4d11-8153-5bce3e35a240" />
 
 ## Reproducibility & Setup
 #### Prerequisites
