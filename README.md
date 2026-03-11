@@ -4,7 +4,7 @@
 ## Description
 An automated, end-to-end data pipeline and quantitative screening engine for the Indian Mutual Fund market. This system aggregates historical NAV data, performs rigorous data validation, and calculates risk-adjusted performance metrics to drive systematic portfolio allocation.
 
-## Architecture & Infrastructure 
+## Architecture & Technological Infrastructure 
 The project is structured for reliability and automated reporting, heavily emphasizing data integrity before any statistical modeling occurs.
 
 **1. Data Ingestion & Pipeline:** Multi-threaded historical data extraction from the AMFI API, coupled with a resilient daily update mechanism (exponential backoff, retry logic).
@@ -17,14 +17,91 @@ The project is structured for reliability and automated reporting, heavily empha
 
 <img width="787" height="742" alt="image" src="https://github.com/user-attachments/assets/c0a9cd36-4725-4cd5-bbfe-8d053e4f6fd1" />
 
-**5.Interactive Frontend: A deployed Streamlit application that provides millisecond-latency portfolio recommendations via pre-computed matrix caching.**
+**5.Interactive Frontend:** A deployed Streamlit application that provides millisecond-latency portfolio recommendations via pre-computed matrix caching.
 <img width="1916" height="729" alt="image" src="https://github.com/user-attachments/assets/3ee12eae-86d5-4384-9807-a74bd84e6ca2" />
 
 
-## Quantitative Backtesting Performance
-The ProfessionalMFEngine module implements a systematic backtester evaluating a combined Trend-Following (Fast/Slow EMA crossover) and Momentum (RSI + Prophet directional prediction) strategy.
+architecture-beta
+    group local(Local Data Pipeline & Storage)
+    group cloud(Streamlit Cloud Deployment)
 
-Synthetic bull market simulation assuming 0.08% average daily return drift over 1200 trading days .
+    %% Local Components
+    service api(AMFI API)
+    service extract(Python Data Extractor) in local
+    service validate(Pandera Schema) in local
+    service db(MySQL Database) in local
+    service compute(Pandas & Prophet Engine) in local
+    
+    %% Cloud Components
+    service cache(Brotli Parquet Cache) in cloud
+    service app(Streamlit Web App) in cloud
+    service user(End User / Recruiter)
+
+    %% Connections
+    api:R --> L:extract
+    extract:R --> L:validate
+    validate:R --> L:db
+    db:T --> B:compute
+    compute:R --> L:cache
+    cache:R --> L:app
+    app:R --> L:user
+
+#### The Workflow
+
+graph TD
+    %% Workflow Nodes
+    A[AMFI API Source] -->|Multi-threaded Fetch| B(Raw Data Extraction)
+    B --> C{Pandera Validation}
+    C -->|Fails Schema| D[Error Logging / Reject]
+    C -->|Passes Schema| E[(MySQL / SQLAlchemy)]
+    
+    E -->|Scheduled Query| F[Quant Engine Pre-computation]
+    F --> G[Calculate Base Metrics]
+    G --> H[Prophet & Holt-Winters Forecasting]
+    
+    H --> I[Parquet Compression & Downcasting]
+    I --> J[(clean_nav_data.parquet)]
+    
+    J -->|Deploys to| K[Streamlit Cloud Frontend]
+    K --> L[User Inputs: Horizon & Risk]
+    L --> M[Dynamic Suitability Scoring]
+    M --> N[Hierarchical Clustering Filter]
+    N --> O(((Final Portfolio Recommendation)))
+
+    %% Styling
+    style E fill:#f9f,stroke:#333,stroke-width:2px
+    style J fill:#bbf,stroke:#333,stroke-width:2px
+    style O fill:#bfb,stroke:#333,stroke-width:3px
+    
+## Quantitative Backtesting Performance
+The ProfessionalMFEngine implements a rigorous, systematic backtester that evaluates a dual-factor strategy combining Trend-Following and Momentum. Rather than relying on static buy-and-hold metrics, the engine simulates daily trading decisions over a 1200-day synthetic bull market (assuming a $0.08\%$ daily return drift).
+
+**1. Signal Generation (The Dual-Factor Model)**
+
+The strategy only triggers a "Buy" signal when two independent technical conditions are met simultaneously:
+
+* **Trend Component (EMA Crossover):** Uses a Fast (20-day) and Slow (50-day) Exponential Moving Average. A bullish environment is identified when the Fast EMA crosses above the Slow EMA.
+
+$$EMA_t = \left( V_t \times \frac{2}{s+1} \right) + EMA_{t-1} \times \left( 1 - \frac{2}{s+1} \right)$$
+
+(Where $V_t$ is the NAV at time $t$, and $s$ is the span).
+
+* **Momentum/Conviction Filter (Prophet Validation):** Even if the EMA signals a buy, the trade is rejected unless the Facebook Prophet machine learning model forecasts the next day's NAV ($\hat{y}_{t+1}$) to be greater than a $98\%$ threshold of the current NAV. This prevents whipsawing in volatile, sideways markets.
+
+**2. Risk & Performance Evaluation**
+The engine calculates cumulative returns for both the strategy and a baseline buy-and-hold benchmark. Strategy risk is quantified using two primary metrics:
+
+* **Maximum Drawdown (MDD):** Measures the largest single drop from peak to trough in the portfolio's value, indicating worst-case capital preservation.
+
+  $$MDD = \min \left( \frac{V_t - P_t}{P_t} \right)$$
+
+  (Where $V_t$ is the portfolio value and $P_t$ is the peak value before time $t$).
+* **Annualized Sharpe Ratio:**
+ Evaluates the risk-adjusted return, punishing strategies that achieve high returns through excessive volatility.
+
+$$\text{Sharpe} = \frac{R_p - R_f}{\sigma_p} \times \sqrt{252}$$
+
+(Where $R_p$ is portfolio return, $R_f$ is the risk-free rate, and $\sigma_p$ is the standard deviation of daily returns).
 
 ### Metrics details:
 
