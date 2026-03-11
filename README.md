@@ -22,7 +22,7 @@ The project is structured for reliability and automated reporting, heavily empha
 <img width="1916" height="729" alt="image" src="https://github.com/user-attachments/assets/3ee12eae-86d5-4384-9807-a74bd84e6ca2" />
 
 
-
+```mermaid
 flowchart TD
     subgraph Local ["Local Data Pipeline & Storage"]
         direction TB
@@ -46,7 +46,7 @@ flowchart TD
     
     style Local fill:#f4f4f4,stroke:#666,stroke-dasharray: 5 5,color:#333
     style Cloud fill:#e6f3ff,stroke:#0066cc,stroke-dasharray: 5 5,color:#333
-
+```
     
 #### The Workflow
 
