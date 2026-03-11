@@ -5,7 +5,7 @@ from prophet import Prophet
 import matplotlib.pyplot as plt
 from datetime import timedelta
 import warnings
-
+import os
 warnings.filterwarnings("ignore")
 
 st.set_page_config(page_title="MF Quant Engine", layout="wide")
@@ -14,9 +14,14 @@ st.title("Mutual Fund Quant & Forecasting")
 @st.cache_data
 def load_data():
     try:
-        df = pd.read_parquet("clean_nav_data.parquet")
-        df["date"] = pd.to_datetime(df["date"])
-
+        try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        data_path = os.path.join(current_dir, "clean_nav_data.parquet")
+        
+        # Load the data using the dynamic path
+        df = pd.read_parquet(data_path)
+        df['date'] = pd.to_datetime(df['date'])
+        
         unique_funds = pd.Series(df["scheme_name"].unique())
 
         filter_keywords = [
