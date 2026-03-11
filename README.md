@@ -21,31 +21,10 @@ The project is structured for reliability and automated reporting, heavily empha
 **5.Interactive Frontend:** A deployed Streamlit application that provides millisecond-latency portfolio recommendations via pre-computed matrix caching.
 <img width="1916" height="729" alt="image" src="https://github.com/user-attachments/assets/3ee12eae-86d5-4384-9807-a74bd84e6ca2" />
 
-```mermaid
+
+
 flowchart TD
-    subgraph Backend [1. Local Data Engineering & Quant Engine]
-        direction LR
-        API([AMFI API]) -->|Fetch| Val{Pandera Validated}
-        Val -->|Clean Data| DB[(MySQL)]
-        DB -->|Compute| Quant[Prophet Models]
-    end
-
-    Quant == "Brotli Compression" ==> Cache[(clean_nav_data.parquet)]
-
-    subgraph Frontend [2. Streamlit Cloud Deployment]
-        direction LR
-        Cache --> App[Web App]
-        App -->|Risk/Horizon| Engine[Suitability Algorithm]
-        Engine --> Port(((Final Portfolio)))
-    end
-
-    style Cache fill:#bbf,stroke:#333,stroke-width:2px,color:#000
-    style Port fill:#bfb,stroke:#333,stroke-width:3px,color:#000
-```
-
-```mermaid
-flowchart LR
-    subgraph Local["Local Data Pipeline & Storage"]
+    subgraph Local ["Local Data Pipeline & Storage"]
         direction TB
         API([AMFI API]) --> Ext[Python Extractor]
         Ext --> Val{Pandera Schema}
@@ -53,7 +32,7 @@ flowchart LR
         DB --> Comp[Pandas & Prophet Engine]
     end
 
-    subgraph Cloud["Streamlit Cloud Deployment"]
+    subgraph Cloud ["Streamlit Cloud Deployment"]
         direction TB
         Cache[(Brotli Parquet Cache)]
         App[Streamlit Web App]
@@ -63,11 +42,12 @@ flowchart LR
         App <--> User
     end
 
-    Comp == Pushes Compressed Data ==> Cache
+    Comp == "Pushes Compressed Data" ==> Cache
     
-    style Local fill:#f4f4f4,stroke:#666,stroke-dasharray: 5 5
-    style Cloud fill:#e6f3ff,stroke:#0066cc,stroke-dasharray: 5 5
-```
+    style Local fill:#f4f4f4,stroke:#666,stroke-dasharray: 5 5,color:#333
+    style Cloud fill:#e6f3ff,stroke:#0066cc,stroke-dasharray: 5 5,color:#333
+
+    
 #### The Workflow
 
 ```mermaid
