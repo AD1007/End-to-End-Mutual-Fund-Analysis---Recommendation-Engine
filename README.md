@@ -42,12 +42,12 @@ flowchart TD
         App <--> User
     end
 
+    %% Connection styling
     Comp == "Pushes Compressed Data" ==> Cache
     
-    %% Changed fill from #f4f4f4 (gray) to #fff (white) to match standard Mermaid background
-    style Local fill:#fff,stroke:#666,stroke-dasharray: 5 5,color:#333
-    %% Changed fill from #e6f3ff (blue) to #fff (white) to match standard Mermaid background
-    style Cloud fill:#fff,stroke:#0066cc,stroke-dasharray: 5 5,color:#333
+    %% Fixed Styles: Removed background colors, set borders and text to white/high-contrast
+    style Local fill:none,stroke:#fff,stroke-dasharray: 5 5,color:#fff
+    style Cloud fill:none,stroke:#0066cc,stroke-dasharray: 5 5,color:#fff
 ```
     
 #### The Workflow
