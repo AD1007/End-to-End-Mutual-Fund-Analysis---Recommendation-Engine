@@ -14,7 +14,6 @@ st.title("Mutual Fund Quant & Forecasting")
 @st.cache_data
 def load_data():
     try:
-        try:
         current_dir = os.path.dirname(os.path.abspath(E:\Projects\ML\Finance Local\SIP-Analyzer-\SIP-Analyzer-))
         data_path = os.path.join(current_dir, "clean_nav_data.parquet")
         
