@@ -1,4 +1,5 @@
 # Quantitative Mutual Fund Analytics & Forecasting Pipeline
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit)](https://your-app-url.streamlit.app/)
 
 ## Description
 An automated, end-to-end data pipeline and quantitative screening engine for the Indian Mutual Fund market. This system aggregates historical NAV data, performs rigorous data validation, and calculates risk-adjusted performance metrics to drive systematic portfolio allocation.
@@ -16,7 +17,8 @@ The project is structured for reliability and automated reporting, heavily empha
 
 <img width="787" height="742" alt="image" src="https://github.com/user-attachments/assets/c0a9cd36-4725-4cd5-bbfe-8d053e4f6fd1" />
 
-**5.Automated Reporting:** A CLI-driven orchestrator (run_local_pipeline.py) that executes the analytical pipeline and generates a stylized, client-ready PDF report via xhtml2pdf.
+**5.Interactive Frontend: A deployed Streamlit application that provides millisecond-latency portfolio recommendations via pre-computed matrix caching.**
+<img width="1916" height="729" alt="image" src="https://github.com/user-attachments/assets/3ee12eae-86d5-4384-9807-a74bd84e6ca2" />
 
 
 ## Quantitative Backtesting Performance
@@ -45,6 +47,10 @@ Forward-looking projections are handled by a dual-model ensemble approach to bal
 The final projected NAV is a weighted ensemble of both models, heavily reducing the variance of single-model forecasts.
 
 <img width="748" height="410" alt="image" src="https://github.com/user-attachments/assets/effdda41-72db-4d11-8153-5bce3e35a240" />
+
+
+## Portfolio Construction Logic
+The recommendation algorithm utilizes agglomerative hierarchical clustering (Ward's method) and a daily return correlation matrix. The pipeline automatically constructs a diversified portfolio by selecting an "Anchor" fund based on the highest risk-adjusted suitability score, and iteratively appending funds that maintain an internal correlation coefficient of `< 0.85`.
 
 ## Reproducibility & Setup
 #### Prerequisites
@@ -87,7 +93,10 @@ The final projected NAV is a weighted ensemble of both models, heavily reducing 
  ``` Python
  python run_local_pipeline.py
  ```
-
+**Option 3: Launch Local Dashboard**
+```bash
+streamlit run app.py
+```
 ## Portfolio Construction Logic
 
 The recommendation algorithm utilizes agglomerative hierarchical clustering (Ward's method) and a daily return correlation matrix. The pipeline automatically constructs a diversified portfolio by selecting an "Anchor" fund based on the highest risk-adjusted suitability score, and iteratively appending funds that maintain an internal correlation coefficient of < 0.85.
