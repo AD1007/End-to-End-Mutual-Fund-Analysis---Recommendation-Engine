@@ -54,6 +54,7 @@ flowchart TD
 flowchart TD
     A[AMFI API Source] -->|Multi-threaded Fetch| B(Raw Data Extraction)
     B --> C{Pandera Validation}
+    
     C -->|Fails Schema| D[Error Logging / Reject]
     C -->|Passes Schema| E[(MySQL DB)]
     
@@ -61,18 +62,17 @@ flowchart TD
     F --> G[Calculate Base Metrics]
     G --> H[Prophet & Holt-Winters Forecasts]
     
-    H --> I[Parquet Compression]
-    I --> J[(clean_nav_data.parquet)]
+    H -->|Compression| I[(clean_nav_data.parquet)]
     
-    J -->|Deploys to| K[Streamlit Cloud]
-    K --> L[User Inputs: Horizon & Risk]
-    L --> M[Dynamic Suitability Scoring]
-    M --> N[Clustering Filter]
-    N --> O(((Final Portfolio)))
+    I -->|Deploys to| J[Streamlit Cloud]
+    J --> K[User Inputs: Horizon & Risk]
+    K --> L[Dynamic Suitability Scoring]
+    L --> M[Clustering Filter]
+    M --> N(((Final Portfolio)))
 
-    style E fill:#f9f,stroke:#333,stroke-width:2px
-    style J fill:#bbf,stroke:#333,stroke-width:2px
-    style O fill:#bfb,stroke:#333,stroke-width:3px
+    style E fill:#f9f,stroke:#333,stroke-width:2px,color:#000
+    style I fill:#bbf,stroke:#333,stroke-width:2px,color:#000
+    style N fill:#bfb,stroke:#333,stroke-width:3px,color:#000
 ```    
 ## Quantitative Backtesting Performance
 The ProfessionalMFEngine implements a rigorous, systematic backtester that evaluates a dual-factor strategy combining Trend-Following and Momentum. Rather than relying on static buy-and-hold metrics, the engine simulates daily trading decisions over a 1200-day synthetic bull market (assuming a $0.08\%$ daily return drift).
