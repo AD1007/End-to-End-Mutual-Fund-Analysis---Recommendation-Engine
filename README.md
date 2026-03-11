@@ -21,58 +21,57 @@ The project is structured for reliability and automated reporting, heavily empha
 <img width="1916" height="729" alt="image" src="https://github.com/user-attachments/assets/3ee12eae-86d5-4384-9807-a74bd84e6ca2" />
 
 
-architecture-beta
-    group local(Local Data Pipeline & Storage)
-    group cloud(Streamlit Cloud Deployment)
+```mermaid
+flowchart LR
+    subgraph Local["Local Data Pipeline & Storage"]
+        direction TB
+        API([AMFI API]) --> Ext[Python Extractor]
+        Ext --> Val{Pandera Schema}
+        Val --> DB[(MySQL Database)]
+        DB --> Comp[Pandas & Prophet Engine]
+    end
 
-    %% Local Components
-    service api(AMFI API)
-    service extract(Python Data Extractor) in local
-    service validate(Pandera Schema) in local
-    service db(MySQL Database) in local
-    service compute(Pandas & Prophet Engine) in local
+    subgraph Cloud["Streamlit Cloud Deployment"]
+        direction TB
+        Cache[(Brotli Parquet Cache)]
+        App[Streamlit Web App]
+        User((End User / Recruiter))
+        
+        Cache --> App
+        App <--> User
+    end
+
+    Comp == Pushes Compressed Data ==> Cache
     
-    %% Cloud Components
-    service cache(Brotli Parquet Cache) in cloud
-    service app(Streamlit Web App) in cloud
-    service user(End User / Recruiter)
-
-    %% Connections
-    api:R --> L:extract
-    extract:R --> L:validate
-    validate:R --> L:db
-    db:T --> B:compute
-    compute:R --> L:cache
-    cache:R --> L:app
-    app:R --> L:user
-
+    style Local fill:#f4f4f4,stroke:#666,stroke-dasharray: 5 5
+    style Cloud fill:#e6f3ff,stroke:#0066cc,stroke-dasharray: 5 5
+```
 #### The Workflow
 
-graph TD
-    %% Workflow Nodes
+```mermaid
+flowchart TD
     A[AMFI API Source] -->|Multi-threaded Fetch| B(Raw Data Extraction)
     B --> C{Pandera Validation}
     C -->|Fails Schema| D[Error Logging / Reject]
-    C -->|Passes Schema| E[(MySQL / SQLAlchemy)]
+    C -->|Passes Schema| E[(MySQL DB)]
     
-    E -->|Scheduled Query| F[Quant Engine Pre-computation]
+    E --> F[Quant Engine Pre-computation]
     F --> G[Calculate Base Metrics]
-    G --> H[Prophet & Holt-Winters Forecasting]
+    G --> H[Prophet & Holt-Winters Forecasts]
     
-    H --> I[Parquet Compression & Downcasting]
+    H --> I[Parquet Compression]
     I --> J[(clean_nav_data.parquet)]
     
-    J -->|Deploys to| K[Streamlit Cloud Frontend]
+    J -->|Deploys to| K[Streamlit Cloud]
     K --> L[User Inputs: Horizon & Risk]
     L --> M[Dynamic Suitability Scoring]
-    M --> N[Hierarchical Clustering Filter]
-    N --> O(((Final Portfolio Recommendation)))
+    M --> N[Clustering Filter]
+    N --> O(((Final Portfolio)))
 
-    %% Styling
     style E fill:#f9f,stroke:#333,stroke-width:2px
     style J fill:#bbf,stroke:#333,stroke-width:2px
     style O fill:#bfb,stroke:#333,stroke-width:3px
-    
+```    
 ## Quantitative Backtesting Performance
 The ProfessionalMFEngine implements a rigorous, systematic backtester that evaluates a dual-factor strategy combining Trend-Following and Momentum. Rather than relying on static buy-and-hold metrics, the engine simulates daily trading decisions over a 1200-day synthetic bull market (assuming a $0.08\%$ daily return drift).
 
