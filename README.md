@@ -44,8 +44,10 @@ flowchart TD
 
     Comp == "Pushes Compressed Data" ==> Cache
     
-    style Local fill:#f4f4f4,stroke:#666,stroke-dasharray: 5 5,color:#333
-    style Cloud fill:#e6f3ff,stroke:#0066cc,stroke-dasharray: 5 5,color:#333
+    %% Changed fill from #f4f4f4 (gray) to #fff (white) to match standard Mermaid background
+    style Local fill:#fff,stroke:#666,stroke-dasharray: 5 5,color:#333
+    %% Changed fill from #e6f3ff (blue) to #fff (white) to match standard Mermaid background
+    style Cloud fill:#fff,stroke:#0066cc,stroke-dasharray: 5 5,color:#333
 ```
     
 #### The Workflow
